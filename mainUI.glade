@@ -9,19 +9,16 @@
     <property name="destroy_with_parent">True</property>
     <property name="icon">res/ttt.png</property>
     <property name="type_hint">dialog</property>
-    <property name="program_name">Tic Tac Toe</property>
-    <property name="version">v2.0</property>
-    <property name="website">https://www.github.com/gokulvsd/tictactoe</property>
-    <property name="website_label" translatable="yes">Utilizes GTK+ 3.0, UI made with Glade
-www.github.com/GokulVSD/tictactoe</property>
-    <property name="license" translatable="yes">Author gives full permission to copy and redistribute the source code as a whole as well as the compiled application so long as his github page is linked visibly within the application, i.e., https://www.github.com/gokulvsd/tictactoe</property>
-    <property name="authors">Gokul Vasudeva
-1st year undergraduate,
-PESIT BSC,
-Bangalore, India</property>
-    <property name="logo">res/ttt.png</property>
+    <property name="program_name">Juego de Gato</property>
+    <property name="version">v1.0</property>
+    <property name="website">https://github.com/aisa0/Proyecto_en_C</property>
+    <property name="website_label" translatable="yes">Hecho en C con GTK+ 3.0, UI hecha con Glade
+https://github.com/aisa0/Proyecto_en_C</property>
+    <property name="authors">Ariel Mora
+Isabel Sabater
+Jose Acevedo</property>
+    <property name="logo_icon_name">help-about</property>
     <property name="wrap_license">True</property>
-    <property name="license_type">custom</property>
     <child type="titlebar">
       <placeholder/>
     </child>
