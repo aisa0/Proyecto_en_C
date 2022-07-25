@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAboutDialog" id="aboutDialog">
@@ -21,6 +22,9 @@ Bangalore, India</property>
     <property name="logo">res/ttt.png</property>
     <property name="wrap_license">True</property>
     <property name="license_type">custom</property>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="aboutDialogButtons">
         <property name="can_focus">False</property>
@@ -48,19 +52,20 @@ Bangalore, India</property>
               <object class="GtkLabel" id="label3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Two players take turns to fill the 3x3 grid with X's and O's Respectively.
-	The first player to completely fill any row/column/diagonal with
-						X or O wins.
-      If no row/column/diagonal was completely filled by either X or O,
-		     then the game was a draw, restart and try again.
-		                           X always starts first.</property>
+                <property name="label" translatable="yes">Juego de Gato para 2 jugadores. 
+El juego consiste en colocar 3 símbolos iguales en una línea
+vertical horizontal o diagonal, estos símbolos estan
+asociados a cada jugador (X ó O).
+
+El primero que logre colocar los símbolos en línea es el
+ganador.</property>
               </object>
             </child>
             <child type="label">
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">How to play</property>
+                <property name="label" translatable="yes">Como Jugar</property>
               </object>
             </child>
           </object>
@@ -68,204 +73,6 @@ Bangalore, India</property>
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">2</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkDialog" id="chooseDifficultyDialog">
-    <property name="can_focus">False</property>
-    <property name="resizable">False</property>
-    <property name="modal">True</property>
-    <property name="type_hint">dialog</property>
-    <property name="decorated">False</property>
-    <property name="deletable">False</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox1">
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area1">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkLabel" id="label1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Choose Difficulty</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkGrid" id="grid1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="column_homogeneous">True</property>
-                <child>
-                  <object class="GtkButton" id="easyButton">
-                    <property name="label" translatable="yes">Easy</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_easyButton_clicked" object="chooseDifficultyDialog" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="mediumButton">
-                    <property name="label" translatable="yes">Medium</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_mediumButton_clicked" object="chooseDifficultyDialog" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="hardButton">
-                    <property name="label" translatable="yes">Hard</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_hardButton_clicked" object="chooseDifficultyDialog" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">2</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkDialog" id="chooseGamemodeDialog">
-    <property name="can_focus">False</property>
-    <property name="resizable">False</property>
-    <property name="type_hint">dialog</property>
-    <property name="decorated">False</property>
-    <property name="deletable">False</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox2">
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area2">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box2">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkLabel" id="label4">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Choose Gamemode</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkGrid" id="grid2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="row_homogeneous">True</property>
-                <property name="column_homogeneous">True</property>
-                <child>
-                  <object class="GtkButton" id="pvpButton">
-                    <property name="label" translatable="yes">Player vs Player</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_pvpButton_clicked" object="chooseGamemodeDialog" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="pvcButton">
-                    <property name="label" translatable="yes">Player vs Computer</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_pvcButton_clicked" object="chooseGamemodeDialog" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
           </packing>
         </child>
       </object>
@@ -280,6 +87,9 @@ Bangalore, India</property>
     <property name="deletable">False</property>
     <property name="has_resize_grip">True</property>
     <signal name="destroy" handler="on_mainWindow_destroy" swapped="no"/>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
     <child>
       <object class="GtkBox" id="mainBox">
         <property name="visible">True</property>
@@ -304,24 +114,11 @@ Bangalore, India</property>
             <property name="column_homogeneous">True</property>
             <child>
               <object class="GtkButton" id="aboutButton">
-                <property name="label" translatable="yes">ABOUT</property>
+                <property name="label" translatable="yes">Acerca de</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_aboutSelection_activate" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">3</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="chooseGamemodeButton">
-                <property name="label" translatable="yes">GAMEMODE</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="on_chooseGamemodeButton_clicked" object="chooseGamemodeButton" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -329,21 +126,8 @@ Bangalore, India</property>
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="chooseDifficultyButton">
-                <property name="label" translatable="yes">MEDIUM</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="on_chooseDifficultyButton_clicked" object="chooseDifficultyButton" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">2</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="restartButton">
-                <property name="label" translatable="yes">RESTART</property>
+                <property name="label" translatable="yes">Reiniciar</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -356,14 +140,14 @@ Bangalore, India</property>
             </child>
             <child>
               <object class="GtkButton" id="quitButton">
-                <property name="label" translatable="yes">QUIT</property>
+                <property name="label" translatable="yes">Salir</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_gameExit_activate" swapped="no"/>
               </object>
               <packing>
-                <property name="left_attach">4</property>
+                <property name="left_attach">2</property>
                 <property name="top_attach">0</property>
               </packing>
             </child>
@@ -376,7 +160,7 @@ Bangalore, India</property>
         </child>
         <child>
           <object class="GtkButton" id="statusButton">
-            <property name="label" translatable="yes">CLICK TO START</property>
+            <property name="label" translatable="yes">Iniciar Juego</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
