@@ -1,19 +1,30 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
-// To-Do:
-// Make window deletable, add int on_mainWindow_destroy()
-// Remove the necessity to press the status button on restart
-// Modify the way restart works
-// Initialise the variables only once, even if PvP
-// Modify glade code and remove unecessary user_data thats being passed
-// Add octaves when buttons are clicked
-// Modify text colors for stuff
-// Modify the X and O's to be bigger fonts size
-// Use more code inheritance when buttons are being pressed
+//En este proyecto desarrolamos un "gato", en cual  dos jugadores en simultaneo hacen parte de una partida.
+// Este Juego cuenta con una interfaz grafica,ademas de un ocntador en caso de haber un ganador en la partida. Y un boton de reinicio
 
-/* All code in master branch was written by Gokul Vasudeva
-Uploaded to https://github.com/GokulVSD/tictactoe/ */
+// function prototyping
+int randomNumberLessThan(int n);
+void initialising(GtkButton *buttonInit,int i,int j);
+int hasAnyoneWon(int a[3][3]);
+void setAllButtonsToBlank();
+void computerMove();
+
+// declaring global variables
+static GtkButton *statusClick,*diffClick,*gameClick;
+static GtkButton *button[3][3]={{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL}};
+
+// declaring global flags
+static int flag=0, gameNotOver=1, initialise=0, statusFlag=0, pressed[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+static int moveCounter=0;
+
+// declaring game parameters
+static int arr[3][3]={{0,0,0},{0,0,0},{0,0,0}};#include <gtk/gtk.h>
+#include <stdlib.h>
+
+//En este proyecto desarrolamos un "gato", en cual  dos jugadores en simultaneo hacen parte de una partida.
+// Este Juego cuenta con una interfaz grafica,ademas de un ocntador en caso de haber un ganador en la partida. Y un boton de reinicio
 
 // function prototyping
 int randomNumberLessThan(int n);
@@ -93,20 +104,21 @@ void on_chooseGamemodeButton_clicked(GtkWidget *click_button, gpointer   user_da
 {
   gameClick = (GtkButton *) user_data;
   if(!statusFlag) return;
-  if(flag)
-  {
-    gtk_button_set_label(statusClick, "EMPEZAR DESDE SELECCIONAR JUEGO");
-    return;
-  }
-  flag=1; //enable flag at button press, not here. reset flag to 0 in restart
-  gtk_button_set_label(statusClick, "SELECCION DE MODO DE JUEGO");
+  //if(flag)
+  //{
+    //gtk_button_set_label(statusClick, "EMPEZAR DESDE SELECCIONAR JUEGO");
+    //return;
+  //}
+  //flag=1;
+  //enable flag at button press, not here. reset flag to 0 in restart
+  //gtk_button_set_label(statusClick, "SELECCION DE MODO DE JUEGO");
   GtkBuilder  *builder;
   GtkWidget   *gameDialog;
 // initialising GTKbuilder with .glade file
   builder = gtk_builder_new();
   gtk_builder_add_from_file (builder, "mainUI.glade", NULL);
 // initialising gamemode selection widget
-  gameDialog = GTK_WIDGET(gtk_builder_get_object(builder, "chooseGamemodeDialog"));
+  //gameDialog = GTK_WIDGET(gtk_builder_get_object(builder, "chooseGamemodeDialog"));
   gtk_builder_connect_signals(builder, NULL);
   g_object_unref(builder);
   gtk_dialog_run (GTK_DIALOG (gameDialog));
@@ -115,24 +127,24 @@ void on_chooseGamemodeButton_clicked(GtkWidget *click_button, gpointer   user_da
 }
 
 // runs when PvP is selected in settings menu
-void on_pvpButton_clicked(GtkWidget *click_button, gpointer   user_data)
-{
+//void on_pvpButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
   gameType = 0;
   gtk_widget_destroy((GtkWidget *) user_data);
   gtk_button_set_label(gameClick, "PvP");
-}
+}*/
 
 // runs the choose difficulty pop up when PvC is selected in settings menu
-void on_pvcButton_clicked(GtkWidget *click_button, gpointer   user_data)
-{
+//void on_pvcButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
   gameType = 1;
   gtk_widget_destroy((GtkWidget *) user_data);
   gtk_button_set_label(gameClick, "PvC");
-}
+}*/
 
 // when difficulty button is pressed
-void on_chooseDifficultyButton_clicked(GtkWidget *click_button, gpointer   user_data)
-{
+//void on_chooseDifficultyButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
     diffClick = (GtkButton *) user_data;
     gtk_button_set_label(statusClick, "SELECCIONE DIFICULTAD");
     GtkBuilder  *builder;
@@ -147,31 +159,31 @@ void on_chooseDifficultyButton_clicked(GtkWidget *click_button, gpointer   user_
     gtk_dialog_run (GTK_DIALOG (diffDialog));
   // when window is closed from the x button in toolbar
     gtk_widget_destroy(diffDialog);
-}
+}*/
 
 // runs when easy is selected in difficulty selection dialog
-void on_easyButton_clicked(GtkWidget *click_button, gpointer   user_data)
-{
+//void on_easyButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
   gameDifficulty = 0;
   gtk_widget_destroy((GtkWidget *) user_data);
   gtk_button_set_label(diffClick, "FACIL ");
-}
+}*/
 
 // runs when medium is selected in difficulty selection dialog
-void on_mediumButton_clicked(GtkWidget *click_button, gpointer   user_data)
-{
+//void on_mediumButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
   gameDifficulty = 1;
   gtk_widget_destroy((GtkWidget *) user_data);
   gtk_button_set_label(diffClick, "MEDIO");
-}
+}*/
 
 // runs when hard is selected in difficulty selection dialog
-void on_hardButton_clicked(GtkWidget *click_button, gpointer   user_data)
-{
+//void on_hardButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
   gameDifficulty = 2;
   gtk_widget_destroy((GtkWidget *) user_data);
   gtk_button_set_label(diffClick, "DIFICIL");
-}
+}*/
 
 /* runs when restart is selected in settings menu. Destroys old window,
  reinitialises all global variables and runs main method */
@@ -179,7 +191,169 @@ void on_restartGame_activate(GtkWidget *click_button, gpointer   user_data)
 {
   int i,j;
   if(!statusFlag) return;
-  gameDifficulty=0; gameType=0; flag=0; moveCounter=0; gameNotOver=1; initialise=0;
+  //gameDifficulty=0; gameType=0;flag=0;
+   moveCounter=0; gameNotOver=1; initialise=0;
+  for(i=0;i<3;i++)
+  {
+      for(j=0;j<3;j++)
+      {
+          button[i][j]=NULL;
+          arr[i][j]=0;
+          pressed[i][j]=0;
+      }
+  }
+  setAllButtonsToBlank();
+}
+static int gameType=0, gameDifficulty=1;
+
+// main method, start of execution
+int main(int argc, char *argv[])
+{
+    GtkBuilder      *builder;
+    GtkWidget       *window;
+
+    gtk_init(&argc, &argv);
+
+// initialising GTKbuilder with .glade file
+    builder = gtk_builder_new();
+    gtk_builder_add_from_file (builder, "mainUI.glade", NULL);
+
+// initialising main window widget
+    window = GTK_WIDGET (gtk_builder_get_object(builder, "mainWindow"));
+    gtk_builder_connect_signals(builder, NULL);
+
+// dereferencing builder pointer (for reuse later)
+    g_object_unref(builder);
+
+// showing main window widget
+    gtk_widget_show(window);
+    gtk_main();
+    return 0;
+}
+
+// called when quit is selected in settings menu
+void on_gameExit_activate()
+{
+    gtk_main_quit();
+    exit(0);
+}
+
+// runs the about dialog box
+void on_aboutSelection_activate()
+{
+  GtkWidget   *about;
+  GtkBuilder  *builder;
+
+// initialising GTKbuilder with .glade file
+  builder = gtk_builder_new();
+  gtk_builder_add_from_file (builder, "mainUI.glade", NULL);
+
+// initialising about widget
+  about = GTK_WIDGET(gtk_builder_get_object(builder, "aboutDialog"));
+  gtk_builder_connect_signals(builder, NULL);
+
+// dereferencing builder for later use
+  g_object_unref(builder);
+  gtk_dialog_run (GTK_DIALOG (about));
+
+// when response signal is triggered
+  gtk_widget_destroy (about);
+}
+
+// when gamemode button is pressed
+void on_chooseGamemodeButton_clicked(GtkWidget *click_button, gpointer   user_data)
+{
+  gameClick = (GtkButton *) user_data;
+  if(!statusFlag) return;
+  //if(flag)
+  //{
+    //gtk_button_set_label(statusClick, "EMPEZAR DESDE SELECCIONAR JUEGO");
+    //return;
+  //}
+  //flag=1;
+  //enable flag at button press, not here. reset flag to 0 in restart
+  //gtk_button_set_label(statusClick, "SELECCION DE MODO DE JUEGO");
+  GtkBuilder  *builder;
+  GtkWidget   *gameDialog;
+// initialising GTKbuilder with .glade file
+  builder = gtk_builder_new();
+  gtk_builder_add_from_file (builder, "mainUI.glade", NULL);
+// initialising gamemode selection widget
+  //gameDialog = GTK_WIDGET(gtk_builder_get_object(builder, "chooseGamemodeDialog"));
+  gtk_builder_connect_signals(builder, NULL);
+  g_object_unref(builder);
+  gtk_dialog_run (GTK_DIALOG (gameDialog));
+// when window is closed from the x button in toolbar
+  gtk_widget_destroy(gameDialog);
+}
+
+// runs when PvP is selected in settings menu
+//void on_pvpButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
+  gameType = 0;
+  gtk_widget_destroy((GtkWidget *) user_data);
+  gtk_button_set_label(gameClick, "PvP");
+}*/
+
+// runs the choose difficulty pop up when PvC is selected in settings menu
+//void on_pvcButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
+  gameType = 1;
+  gtk_widget_destroy((GtkWidget *) user_data);
+  gtk_button_set_label(gameClick, "PvC");
+}*/
+
+// when difficulty button is pressed
+//void on_chooseDifficultyButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
+    diffClick = (GtkButton *) user_data;
+    gtk_button_set_label(statusClick, "SELECCIONE DIFICULTAD");
+    GtkBuilder  *builder;
+    GtkWidget   *diffDialog;
+  // initialising GTKbuilder with .glade file
+    builder = gtk_builder_new();
+    gtk_builder_add_from_file (builder, "mainUI.glade", NULL);
+  // initialising difficulty selection widget
+    diffDialog = GTK_WIDGET(gtk_builder_get_object(builder, "chooseDifficultyDialog"));
+    gtk_builder_connect_signals(builder, NULL);
+    g_object_unref(builder);
+    gtk_dialog_run (GTK_DIALOG (diffDialog));
+  // when window is closed from the x button in toolbar
+    gtk_widget_destroy(diffDialog);
+}*/
+
+// runs when easy is selected in difficulty selection dialog
+//void on_easyButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
+  gameDifficulty = 0;
+  gtk_widget_destroy((GtkWidget *) user_data);
+  gtk_button_set_label(diffClick, "FACIL ");
+}*/
+
+// runs when medium is selected in difficulty selection dialog
+//void on_mediumButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
+  gameDifficulty = 1;
+  gtk_widget_destroy((GtkWidget *) user_data);
+  gtk_button_set_label(diffClick, "MEDIO");
+}*/
+
+// runs when hard is selected in difficulty selection dialog
+//void on_hardButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
+  gameDifficulty = 2;
+  gtk_widget_destroy((GtkWidget *) user_data);
+  gtk_button_set_label(diffClick, "DIFICIL");
+}*/
+
+/* runs when restart is selected in settings menu. Destroys old window,
+ reinitialises all global variables and runs main method */
+void on_restartGame_activate(GtkWidget *click_button, gpointer   user_data)
+{
+  int i,j;
+  if(!statusFlag) return;
+  //gameDifficulty=0; gameType=0;flag=0;
+   moveCounter=0; gameNotOver=1; initialise=0;
   for(i=0;i<3;i++)
   {
       for(j=0;j<3;j++)
@@ -193,15 +367,15 @@ void on_restartGame_activate(GtkWidget *click_button, gpointer   user_data)
 }
 
 // runs when status button is clicked, used to pass a reference of the status button
-void on_statusButton_clicked(GtkWidget *click_button, gpointer   user_data)
-{
+//void on_statusButton_clicked(GtkWidget *click_button, gpointer   user_data)
+/*{
   statusClick = (GtkButton *) user_data;
   if(!flag)
     {
       gtk_button_set_label(statusClick, "SELECCIONE MODO DE JUEGO DESDE AJUSTES");
       statusFlag=1;
     }
-}
+}*/
 
 /* initialising mode is used to get a reference to all the buttons in order to change
 their labels in PvC mode. This is a downside of using Glade, as the computer
@@ -798,8 +972,9 @@ the winning move is puntajed higher than blocking TURNO DEL JUGADOR 1. Lastly, p
 added to certain buttons to block Player 1 from reaching to the point where he/she
 is assured a garuanteed win. The move to be played is randomised based on the
 difficulty. Higher the difficulty, higher the chance that the ideal move is played. */
-void computerMove()
-{
+
+//void computerMove()
+/*{
   int i,j,k,l,best=0,x,y;
   int tempGame[3][3];
   int puntaje[3][3]={{0,0,0},{0,0,0},{0,0,0}};
@@ -926,7 +1101,7 @@ void computerMove()
             gameNotOver=0;
             break;
   }
-}
+}*/
 
 // runs for the first time each button is pressed
 void initialising(GtkButton *buttonInit,int i,int j)
