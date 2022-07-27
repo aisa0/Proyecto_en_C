@@ -72,7 +72,7 @@ void on_aboutSelection_activate()
 
 // Llamamiento del archivo Glade.
   builder = gtk_builder_new();
-  gtk_builder_add_from_file (builder, "mainUI.glade", NULL);
+  gtk_builder_add_from_file (builder, "interfaz.glade", NULL);
 
 // Inicialización del widget de Acerca de...
   about = GTK_WIDGET(gtk_builder_get_object(builder, "aboutDialog"));
