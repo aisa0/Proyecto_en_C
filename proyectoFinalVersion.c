@@ -15,21 +15,20 @@ horizontal o diagonal, gana el primero que lo consiga.
 #include <stdlib.h>
 
 // Inicialización del programa.
-void initialising(GtkButton *buttonInit,int i,int j);
-int hasAnyoneWon(int a[3][3]);
-void setAllButtonsToBlank();
+void init(GtkButton *buttonInit,int i,int j);
+int hayGanador(int a[3][3]);
+void todosBotonesBlanco();
 
 // Se define el botón de estado que sirve para definir ganadores.
-static GtkButton *statusClick,*gameClick;
+static GtkButton *statusClick;
 static GtkButton *button[3][3]={{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL}};
 
 // Declaración de variables globales.
-static int flag=0, gameNotOver=1, initialise=0, statusFlag=0, pressed[3][3]={{0,0,0},{0,0,0},{0,0,0}};
-static int moveCounter=0;
+static int flag=0, juegoNoTerminado=1, iniciado=0, playingFlag=0, pressed[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+static int moverContador=0;
 
 // Declaración de los parámetros deljuego.
 static int arr[3][3]={{0,0,0},{0,0,0},{0,0,0}};
-static int gameType=0, gameDifficulty=1;
 
 // Inicio de ejecución del main.
 int main(int argc, char *argv[])
@@ -87,22 +86,22 @@ void on_statusButton_clicked(GtkWidget *click_button, gpointer   user_data)
   if(!flag)
     {
       gtk_button_set_label(statusClick, "Jugando");
-      statusFlag=1;
-      gameType = 1;
+      playingFlag=1;
       flag = 1;
     }
 }
 
 
-//ESTA SECCION SE ENCARGA DE LA LÓGICA EN EL TABLERO
+// ESTA SECCION SE ENCARGA DE LA LÓGICA EN EL TABLERO
+// Los enteros on_buttonxx_clicked estan asociados a los handlers dentro de Glade
 int on_button11_clicked(GtkWidget *click_button, gpointer   user_data)
 {
   GtkButton *buttonTemp = (GtkButton *) user_data;
 
   // Inicializar un modo.
-  if(initialise!=0)
+  if(iniciado!=0)
   {
-    initialising(buttonTemp,0,0);
+    init(buttonTemp,0,0);
     return 0;
   }
 
@@ -110,44 +109,44 @@ int on_button11_clicked(GtkWidget *click_button, gpointer   user_data)
   if(pressed[0][0]) return 0;
 
   // Para cuando el bot+on es presionado in-game
-  if(flag&&gameNotOver)
+  if(flag&&juegoNoTerminado)
   {
 
   // Esta parte del código corre cuando se hace movida en turno impar y par respectivamente.
   // Este en específico activa la casilla 1,1 que esla esquina superior izquierda.
   // Se va a replicar para todas las casillas del tablero.
-    if(++moveCounter%2)
+    if(++moverContador%2)
     {
       arr[0][0]=1;
       gtk_button_set_label(buttonTemp, "X");
       pressed[0][0]=1;
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 0: if(moveCounter==9)
+        case 0: if(moverContador==9)
                 {
-                  gtk_button_set_label(statusClick, "Empate");
-                  gameNotOver=0; return 0;
+                  gtk_button_set_label(statusClick, "¡Empate!");
+                  juegoNoTerminado=0; return 0;
                 } break;
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 2");
+      gtk_button_set_label(statusClick, "Turno del jugador 2...");
     }
 
     else
     {
       arr[0][0]=2;
       gtk_button_set_label(buttonTemp, "O");
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 1");
+      gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
     pressed[0][0]=1;
   }
@@ -159,48 +158,48 @@ int on_button12_clicked(GtkWidget *click_button, gpointer   user_data)
 {
   GtkButton *buttonTemp = (GtkButton *) user_data;
 
-  if(initialise!=0)
+  if(iniciado!=0)
   {
-    initialising(buttonTemp,0,1);
+    init(buttonTemp,0,1);
     return 0;
   }
 
   if(pressed[0][1]) return 0;
 
-  if(flag&&gameNotOver)
+  if(flag&&juegoNoTerminado)
   {
-    if(++moveCounter%2)
+    if(++moverContador%2)
     {
       arr[0][1]=1;
       gtk_button_set_label(buttonTemp, "X");
       pressed[0][1]=1;
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 0: if(moveCounter==9)
+        case 0: if(moverContador==9)
                 {
-                  gtk_button_set_label(statusClick, "Empate");
-                  gameNotOver=0; return 0;
+                  gtk_button_set_label(statusClick, "¡Empate!");
+                  juegoNoTerminado=0; return 0;
                 } break;
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 2");
+      gtk_button_set_label(statusClick, "Turno del jugador 2...");
     }
 
     else
     {
       arr[0][1]=2;
       gtk_button_set_label(buttonTemp, "O");
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 1");
+      gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
     pressed[0][1]=1;
   }
@@ -212,48 +211,48 @@ int on_button13_clicked(GtkWidget *click_button, gpointer   user_data)
 {
   GtkButton *buttonTemp = (GtkButton *) user_data;
 
-  if(initialise!=0)
+  if(iniciado!=0)
   {
-    initialising(buttonTemp,0,2);
+    init(buttonTemp,0,2);
     return 0;
   }
 
   if(pressed[0][2]) return 0;
 
-  if(flag&&gameNotOver)
+  if(flag&&juegoNoTerminado)
   {
-    if(++moveCounter%2)
+    if(++moverContador%2)
     {
       arr[0][2]=1;
       gtk_button_set_label(buttonTemp, "X");
       pressed[0][2]=1;
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 0: if(moveCounter==9)
+        case 0: if(moverContador==9)
                 {
-                  gtk_button_set_label(statusClick, "Empate");
-                  gameNotOver=0; return 0;
+                  gtk_button_set_label(statusClick, "¡Empate!");
+                  juegoNoTerminado=0; return 0;
                 } break;
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 2");
+      gtk_button_set_label(statusClick, "Turno del jugador 2...");
     }
 
     else
     {
       arr[0][2]=2;
       gtk_button_set_label(buttonTemp, "O");
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 1");
+      gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
     pressed[0][2]=1;
   }
@@ -265,48 +264,48 @@ int on_button21_clicked(GtkWidget *click_button, gpointer   user_data)
 {
   GtkButton *buttonTemp = (GtkButton *) user_data;
 
-  if(initialise!=0)
+  if(iniciado!=0)
   {
-    initialising(buttonTemp,1,0);
+    init(buttonTemp,1,0);
     return 0;
   }
 
   if(pressed[1][0]) return 0;
 
-  if(flag&&gameNotOver)
+  if(flag&&juegoNoTerminado)
   {
-    if(++moveCounter%2)
+    if(++moverContador%2)
     {
       arr[1][0]=1;
       gtk_button_set_label(buttonTemp, "X");
       pressed[1][0]=1;
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 0: if(moveCounter==9)
+        case 0: if(moverContador==9)
                 {
-                  gtk_button_set_label(statusClick, "Empate");
-                  gameNotOver=0; return 0;
+                  gtk_button_set_label(statusClick, "¡Empate!");
+                  juegoNoTerminado=0; return 0;
                 } break;
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 2");
+      gtk_button_set_label(statusClick, "Turno del jugador 2...");
     }
 
     else
     {
       arr[1][0]=2;
       gtk_button_set_label(buttonTemp, "O");
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 1");
+      gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
     pressed[1][0]=1;
   }
@@ -318,48 +317,48 @@ int on_button22_clicked(GtkWidget *click_button, gpointer   user_data)
 {
   GtkButton *buttonTemp = (GtkButton *) user_data;
 
-  if(initialise!=0)
+  if(iniciado!=0)
   {
-    initialising(buttonTemp,1,1);
+    init(buttonTemp,1,1);
     return 0;
   }
 
   if(pressed[1][1]) return 0;
 
-  if(flag&&gameNotOver)
+  if(flag&&juegoNoTerminado)
   {
-    if(++moveCounter%2)
+    if(++moverContador%2)
     {
       arr[1][1]=1;
       gtk_button_set_label(buttonTemp, "X");
       pressed[1][1]=1;
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 0: if(moveCounter==9)
+        case 0: if(moverContador==9)
                 {
-                  gtk_button_set_label(statusClick, "Empate");
-                  gameNotOver=0; return 0;
+                  gtk_button_set_label(statusClick, "¡Empate!");
+                  juegoNoTerminado=0; return 0;
                 } break;
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 2");
+      gtk_button_set_label(statusClick, "Turno del jugador 2...");
     }
 
     else
     {
       arr[1][1]=2;
       gtk_button_set_label(buttonTemp, "O");
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 1");
+      gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
     pressed[1][1]=1;
   }
@@ -371,48 +370,48 @@ int on_button23_clicked(GtkWidget *click_button, gpointer   user_data)
 {
   GtkButton *buttonTemp = (GtkButton *) user_data;
 
-  if(initialise!=0)
+  if(iniciado!=0)
   {
-    initialising(buttonTemp,1,2);
+    init(buttonTemp,1,2);
     return 0;
   }
 
   if(pressed[1][2]) return 0;
 
-  if(flag&&gameNotOver)
+  if(flag&&juegoNoTerminado)
   {
-    if(++moveCounter%2)
+    if(++moverContador%2)
     {
       arr[1][2]=1;
       gtk_button_set_label(buttonTemp, "X");
       pressed[1][2]=1;
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 0: if(moveCounter==9)
+        case 0: if(moverContador==9)
                 {
-                  gtk_button_set_label(statusClick, "DRAW");
-                  gameNotOver=0; return 0;
+                  gtk_button_set_label(statusClick, "¡Empate!");
+                  juegoNoTerminado=0; return 0;
                 } break;
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 2");
+      gtk_button_set_label(statusClick, "Turno del jugador 2...");
     }
 
     else
     {
       arr[1][2]=2;
       gtk_button_set_label(buttonTemp, "O");
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 1");
+      gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
     pressed[1][2]=1;
   }
@@ -424,48 +423,48 @@ int on_button31_clicked(GtkWidget *click_button, gpointer   user_data)
 {
   GtkButton *buttonTemp = (GtkButton *) user_data;
 
-  if(initialise!=0)
+  if(iniciado!=0)
   {
-    initialising(buttonTemp,2,0);
+    init(buttonTemp,2,0);
     return 0;
   }
 
   if(pressed[2][0]) return 0;
 
-  if(flag&&gameNotOver)
+  if(flag&&juegoNoTerminado)
   {
-    if(++moveCounter%2)
+    if(++moverContador%2)
     {
       arr[2][0]=1;
       gtk_button_set_label(buttonTemp, "X");
       pressed[2][0]=1;
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 0: if(moveCounter==9)
+        case 0: if(moverContador==9)
                 {
-                  gtk_button_set_label(statusClick, "Empate");
-                  gameNotOver=0; return 0;
+                  gtk_button_set_label(statusClick, "¡Empate!");
+                  juegoNoTerminado=0; return 0;
                 } break;
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 2");
+      gtk_button_set_label(statusClick, "Turno del jugador 2...");
     }
 
     else
     {
       arr[2][0]=2;
       gtk_button_set_label(buttonTemp, "O");
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 1");
+      gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
     pressed[2][0]=1;
   }
@@ -477,48 +476,48 @@ int on_button32_clicked(GtkWidget *click_button, gpointer   user_data)
 {
   GtkButton *buttonTemp = (GtkButton *) user_data;
 
-  if(initialise!=0)
+  if(iniciado!=0)
   {
-      initialising(buttonTemp,2,1);
+      init(buttonTemp,2,1);
       return 0;
   }
 
   if(pressed[2][1]) return 0;
 
-  if(flag&&gameNotOver)
+  if(flag&&juegoNoTerminado)
   {
-    if(++moveCounter%2)
+    if(++moverContador%2)
     {
       arr[2][1]=1;
       gtk_button_set_label(buttonTemp, "X");
       pressed[2][1]=1;
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 0: if(moveCounter==9)
+        case 0: if(moverContador==9)
                 {
-                  gtk_button_set_label(statusClick, "Empate");
-                  gameNotOver=0; return 0;
+                  gtk_button_set_label(statusClick, "¡Empate!");
+                  juegoNoTerminado=0; return 0;
                 } break;
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 2");
+      gtk_button_set_label(statusClick, "Turno del jugador 2...");
     }
 
     else
     {
       arr[2][1]=2;
       gtk_button_set_label(buttonTemp, "O");
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 1");
+      gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
     pressed[2][1]=1;
   }
@@ -530,48 +529,48 @@ int on_button33_clicked(GtkWidget *click_button, gpointer   user_data)
 {
   GtkButton *buttonTemp = (GtkButton *) user_data;
 
-  if(initialise!=0)
+  if(iniciado!=0)
   {
-      initialising(buttonTemp,2,2);
+      init(buttonTemp,2,2);
       return 0;
   }
 
   if(pressed[2][2]) return 0;
 
-  if(flag&&gameNotOver)
+  if(flag&&juegoNoTerminado)
   {
-    if(++moveCounter%2)
+    if(++moverContador%2)
     {
       arr[2][2]=1;
       gtk_button_set_label(buttonTemp, "X");
       pressed[2][2]=1;
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 0: if(moveCounter==9)
+        case 0: if(moverContador==9)
                 {
-                  gtk_button_set_label(statusClick, "Empate");
-                  gameNotOver=0; return 0;
+                  gtk_button_set_label(statusClick, "¡Empate!");
+                  juegoNoTerminado=0; return 0;
                 } break;
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 2");
+      gtk_button_set_label(statusClick, "Turno del jugador 2...");
     }
 
     else
     {
       arr[2][2]=2;
       gtk_button_set_label(buttonTemp, "O");
-      switch(hasAnyoneWon(arr))
+      switch(hayGanador(arr))
       {
-        case 1: gtk_button_set_label(statusClick, "Jugador 1 gana");
-                gameNotOver=0; return 0;
-        case 2: gtk_button_set_label(statusClick, "Jugador 2 gana");
-                gameNotOver=0; return 0;
+        case 1: gtk_button_set_label(statusClick, "¡Jugador 1 gana!");
+                juegoNoTerminado=0; return 0;
+        case 2: gtk_button_set_label(statusClick, "¡Jugador 2 gana!");
+                juegoNoTerminado=0; return 0;
       }
-      gtk_button_set_label(statusClick, "Turno del jugador 1");
+      gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
     pressed[2][2]=1;
   }
@@ -580,52 +579,52 @@ int on_button33_clicked(GtkWidget *click_button, gpointer   user_data)
 
 // ESTA SECCION REVISA SI HAY TRES X U O EN LINEA
 // Es la sección encargada de dictar las condiciones de gane del juego.
-int hasAnyoneWon(int a[3][3])
+int hayGanador(int a[3][3])
 {
-  int oneWon=0; int twoWon=0; int i,j;
+  int unoGana=0; int dosGana=0; int i,j;
   for(i=0;i<3;i++)
   {
     for(j=0;j<3;j++)
     {
-      if(a[i][j]==1) oneWon++;
-      if(a[i][j]==2) twoWon++;
+      if(a[i][j]==1) unoGana++;
+      if(a[i][j]==2) dosGana++;
     }
-    if(oneWon==3) return 1;
-    if(twoWon==3) return 2;
-    oneWon=0; twoWon=0;
+    if(unoGana==3) return 1;
+    if(dosGana==3) return 2;
+    unoGana=0; dosGana=0;
   }
   for(i=0;i<3;i++)
   {
     for(j=0;j<3;j++)
     {
-      if(a[j][i]==1) oneWon++;
-      if(a[j][i]==2) twoWon++;
+      if(a[j][i]==1) unoGana++;
+      if(a[j][i]==2) dosGana++;
     }
-    if(oneWon==3) return 1;
-    if(twoWon==3) return 2;
-    oneWon=0; twoWon=0;
+    if(unoGana==3) return 1;
+    if(dosGana==3) return 2;
+    unoGana=0; dosGana=0;
   }
   for(i=0;i<3;i++)
   {
-    if(a[i][i]==1) oneWon++;
-    if(a[i][i]==2) twoWon++;
+    if(a[i][i]==1) unoGana++;
+    if(a[i][i]==2) dosGana++;
   }
-  if(oneWon==3) return 1;
-  if(twoWon==3) return 2;
-  oneWon=0; twoWon=0;
+  if(unoGana==3) return 1;
+  if(dosGana==3) return 2;
+  unoGana=0; dosGana=0;
   for(i=0,j=2;i<3;i++,j--)
   {
-    if(a[i][j]==1) oneWon++;
-    if(a[i][j]==2) twoWon++;
+    if(a[i][j]==1) unoGana++;
+    if(a[i][j]==2) dosGana++;
   }
-  if(oneWon==3) return 1;
-  if(twoWon==3) return 2;
+  if(unoGana==3) return 1;
+  if(dosGana==3) return 2;
   return 0;
 }
 
 // ESTA SECCION VUELVE A COLOCAR TODOS LOS BOTONES EN " "
 // Hace que todos los botones inicien en blanco para empezar el juego.
-void setAllButtonsToBlank()
+void todosBotonesBlanco()
 {
     int i,j;
     for(i=0;i<3;i++)
@@ -639,16 +638,16 @@ void setAllButtonsToBlank()
 
 
 // Éste es el botón de inicialización.
-void initialising(GtkButton *buttonInit,int i,int j)
+void init(GtkButton *buttonInit,int i,int j)
 {
     if(button[i][j]!=NULL) return;
     button[i][j]=buttonInit;
     gtk_button_set_label(button[i][j], "Probando");
-    if(++initialise==10)
+    if(++iniciado==10)
     {
-      initialise=0;
-      gtk_button_set_label(statusClick, "PLAYER 1'S MOVE");
-      setAllButtonsToBlank();
+      iniciado=0;
+      gtk_button_set_label(statusClick, "Turno jugador 1");
+      todosBotonesBlanco();
     }
 }
 
