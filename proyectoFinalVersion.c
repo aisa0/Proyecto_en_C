@@ -9,6 +9,8 @@ en inicializarlo mediante el botón de Iniciar juego, y crea un tablero para dos
 jugadores, uno asociado a la letra X y el otro asociado a la letra O.
 El objetivo es conseguir que tres de las letras coincidan en una fila vertical,
 horizontal o diagonal, gana el primero que lo consiga.
+Código basado en el programa realizado por Gokul Vasudeva
+https://www.github.com/gokulvsd/tictactoe
 */
 
 #include <gtk/gtk.h>
