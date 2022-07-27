@@ -125,7 +125,7 @@ void restartButton_clicked(GtkWidget *click_button, gpointer   user_data) {
     gtk_button_set_label(buttonTemp32, " ");
     gtk_button_set_label(buttonTemp33, " ");
 
-    printf("reinicioActivado= %d\n", reinicioActivado );
+
     playingFlag=1;
     flag = 0;
     juegoNoTerminado=1;
@@ -148,7 +148,7 @@ int on_button11_clicked(GtkWidget *click_button, gpointer   user_data)
   // Para cuando el bot+on es presionado in-game
   if(flag&&juegoNoTerminado)
   {
-    printf("reinicioActivado en 11 =%d\n", reinicioActivado);
+
   // Esta parte del código corre cuando se hace movida en turno impar y par respectivamente.
   // Este en específico activa la casilla 1,1 que esla esquina superior izquierda.
   // Se va a replicar para todas las casillas del tablero.
@@ -159,7 +159,7 @@ int on_button11_clicked(GtkWidget *click_button, gpointer   user_data)
       if (reinicioActivado == 1){
         arr[0][0]=1;
         pressed[0][0]=1;
-        printf("whatever\n");
+
       }
 
       switch(hayGanador(arr))
@@ -574,7 +574,7 @@ int on_button32_clicked(GtkWidget *click_button, gpointer   user_data)
       arr[2][1]=1;
       gtk_button_set_label(buttonTemp32, "X");
       if (reinicioActivado == 1){
-        pressed[0][0]=1;
+        pressed[2][1]=1;
         arr[2][1]=1;
       }
 
@@ -633,13 +633,11 @@ int on_button33_clicked(GtkWidget *click_button, gpointer   user_data)
     {
       //arr[2][2]=1;
       gtk_button_set_label(buttonTemp33, "X");
-      if (reinicioActivado == 0){
+      if (reinicioActivado == 1){
         pressed[2][2]=1;
         arr[2][2]=1;
       }
 
-      //gtk_button_set_label(buttonTemp, "X");
-      //pressed[2][2]=1;
       switch(hayGanador(arr))
       {
         case 0: if(moverContador==9)
@@ -657,7 +655,7 @@ int on_button33_clicked(GtkWidget *click_button, gpointer   user_data)
 
     else
     {
-      if (reinicioActivado == 0){
+      if (reinicioActivado == 1){
         arr[2][2]=2;
       }
       //arr[2][2]=2;
@@ -722,8 +720,7 @@ int hayGanador(int a[3][3])
     }
     if(unoGana==3) return 1;
     if(dosGana==3) return 2;
-    printf("%d\n",unoGana );
-    printf("%d\n",dosGana);
+
     return 0;
 
 }
