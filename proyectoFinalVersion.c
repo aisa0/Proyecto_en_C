@@ -125,7 +125,6 @@ void restartButton_clicked(GtkWidget *click_button, gpointer   user_data) {
     gtk_button_set_label(buttonTemp32, " ");
     gtk_button_set_label(buttonTemp33, " ");
 
-    printf("Entre a restartButton_clicked\n");
     printf("reinicioActivado= %d\n", reinicioActivado );
     playingFlag=1;
     flag = 0;
@@ -157,7 +156,7 @@ int on_button11_clicked(GtkWidget *click_button, gpointer   user_data)
     {
       //arr[0][0]=1;
       gtk_button_set_label(buttonTemp11, "X");
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         arr[0][0]=1;
         pressed[0][0]=1;
         printf("whatever\n");
@@ -180,7 +179,7 @@ int on_button11_clicked(GtkWidget *click_button, gpointer   user_data)
 
     else
     {
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         arr[0][0]=2;
       }
       //arr[0][0]=2;
@@ -194,7 +193,7 @@ int on_button11_clicked(GtkWidget *click_button, gpointer   user_data)
       }
       gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
-    if (reinicioActivado != 1){
+    if (reinicioActivado == 1){
       pressed[0][0]=1;
       //arr[0][0]=2;
     }
@@ -217,7 +216,7 @@ int on_button12_clicked(GtkWidget *click_button, gpointer   user_data)
     {
       //arr[0][1]=1;
       gtk_button_set_label(buttonTemp12, "X");
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         pressed[0][1]=1;
         arr[0][1]=1;
       }
@@ -243,7 +242,7 @@ int on_button12_clicked(GtkWidget *click_button, gpointer   user_data)
 
     else
     {
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         arr[0][1]=2;
       }
       //arr[0][1]=2;
@@ -257,7 +256,7 @@ int on_button12_clicked(GtkWidget *click_button, gpointer   user_data)
       }
       gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
-    if (reinicioActivado != 1){
+    if (reinicioActivado == 1){
       pressed[0][1]=1;
       //arr[0][1]=2;
     }
@@ -278,7 +277,7 @@ int on_button13_clicked(GtkWidget *click_button, gpointer   user_data)
     {
       //arr[0][2]=1;
       gtk_button_set_label(buttonTemp13, "X");
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         pressed[0][2]=1;
         arr[0][2]=1;
       }
@@ -303,7 +302,7 @@ int on_button13_clicked(GtkWidget *click_button, gpointer   user_data)
 
     else
     {
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         arr[0][2]=2;
       }
       //arr[0][2]=2;
@@ -317,7 +316,7 @@ int on_button13_clicked(GtkWidget *click_button, gpointer   user_data)
       }
       gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
-    if (reinicioActivado != 1){
+    if (reinicioActivado == 1){
       pressed[0][2]=1;
       //arr[0][2]=2;
     }
@@ -338,7 +337,7 @@ int on_button21_clicked(GtkWidget *click_button, gpointer   user_data)
     {
       //arr[1][0]=1;
       gtk_button_set_label(buttonTemp21, "X");
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         pressed[1][0]=1;
         arr[1][0]=1;
       }
@@ -361,7 +360,7 @@ int on_button21_clicked(GtkWidget *click_button, gpointer   user_data)
 
     else
     {
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         arr[1][0]=2;
       }
       //arr[1][0]=2;
@@ -375,7 +374,7 @@ int on_button21_clicked(GtkWidget *click_button, gpointer   user_data)
       }
       gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
-    if (reinicioActivado != 1){
+    if (reinicioActivado == 1){
       pressed[1][0]=1;
       //arr[1][0]=2;
     }
@@ -397,7 +396,7 @@ int on_button22_clicked(GtkWidget *click_button, gpointer   user_data)
       //arr[1][1]=1;
 
       gtk_button_set_label(buttonTemp22, "X");
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         pressed[1][1]=1;
         arr[1][1]=1;
       }
@@ -420,7 +419,7 @@ int on_button22_clicked(GtkWidget *click_button, gpointer   user_data)
 
     else
     {
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         arr[1][1]=2;
       }
       //arr[1][1]=2;
@@ -434,7 +433,7 @@ int on_button22_clicked(GtkWidget *click_button, gpointer   user_data)
       }
       gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
-    if (reinicioActivado != 1){
+    if (reinicioActivado == 1){
       pressed[1][1]=1;
       //arr[1][1]=2;
     }
@@ -456,7 +455,7 @@ int on_button23_clicked(GtkWidget *click_button, gpointer   user_data)
     {
       //arr[1][2]=1;
       gtk_button_set_label(buttonTemp23, "X");
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         pressed[1][2]=1;
         arr[1][2]=1;
       }
@@ -479,7 +478,7 @@ int on_button23_clicked(GtkWidget *click_button, gpointer   user_data)
 
     else
     {
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         arr[1][2]=2;
       }
       //arr[1][2]=2;
@@ -493,7 +492,7 @@ int on_button23_clicked(GtkWidget *click_button, gpointer   user_data)
       }
       gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
-    if (reinicioActivado != 1){
+    if (reinicioActivado == 1){
       pressed[1][2]=1;
       //arr[1][2]=2;
     }
@@ -515,7 +514,7 @@ int on_button31_clicked(GtkWidget *click_button, gpointer   user_data)
     {
       //arr[2][0]=1;
       gtk_button_set_label(buttonTemp31, "X");
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         pressed[2][0]=1;
         arr[2][0]=1;
       }
@@ -538,7 +537,7 @@ int on_button31_clicked(GtkWidget *click_button, gpointer   user_data)
 
     else
     {
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         arr[2][0]=2;
       }
       //arr[2][0]=2;
@@ -552,7 +551,7 @@ int on_button31_clicked(GtkWidget *click_button, gpointer   user_data)
       }
       gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
-    if (reinicioActivado != 1){
+    if (reinicioActivado == 1){
       pressed[2][0]=1;
       //arr[2][0]=2;
     }
@@ -574,7 +573,7 @@ int on_button32_clicked(GtkWidget *click_button, gpointer   user_data)
     {
       arr[2][1]=1;
       gtk_button_set_label(buttonTemp32, "X");
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         pressed[0][0]=1;
         arr[2][1]=1;
       }
@@ -598,7 +597,7 @@ int on_button32_clicked(GtkWidget *click_button, gpointer   user_data)
 
     else
     {
-      if (reinicioActivado != 1){
+      if (reinicioActivado == 1){
         arr[2][1]=2;
       }
       //arr[2][1]=2;
@@ -612,7 +611,7 @@ int on_button32_clicked(GtkWidget *click_button, gpointer   user_data)
       }
       gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
-    if (reinicioActivado != 1){
+    if (reinicioActivado == 1){
       pressed[2][2]=1;
     //  arr[2][1]=2;
     }
@@ -672,7 +671,7 @@ int on_button33_clicked(GtkWidget *click_button, gpointer   user_data)
       }
       gtk_button_set_label(statusClick, "Turno del jugador 1...");
     }
-    if (reinicioActivado != 1){
+    if (reinicioActivado == 1){
       pressed[2][2]=1;
       //arr[2][2]=2;
     }
